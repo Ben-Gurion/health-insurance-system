@@ -81,7 +81,7 @@ public class Main {
     }
 
     static void viewMembers(){
-        System.out.printf("There are a total of %d members%n", members.size());
+        System.out.printf("There are a total of %d members%n", members.size() + dependents.size());
 
         for (int i = 0; i < members.size(); i++) {
             System.out.println(members.get(i).memberName);
@@ -96,7 +96,7 @@ public class Main {
 
             boolean isMainMemberFound = false;
             for (int i = 0; i < members.size(); i++){
-                if(mainMemberID == members.get(i).memberID){
+                if(mainMemberID.equals( members.get(i).memberID)){
                     isMainMemberFound = true;
                 }
             }
@@ -117,6 +117,8 @@ public class Main {
                 }
 
                 String relationship;
+
+                // replace with switch to handle defaults for non 1 or 2 implementations
                 if(scanner.nextInt() == 1){
                     relationship = "SPOUSE";
                 }else{
@@ -134,10 +136,9 @@ public class Main {
 
                 Dependent dependent = new Dependent(mainMemberID, relationship, memberName, memberAge, memberID);
                 dependents.add(dependent);
+
+                System.out.printf("%s has been added successfully!%n", dependent.memberName);
             }
-
-
-
         }
 
     }
