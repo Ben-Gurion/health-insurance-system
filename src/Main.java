@@ -5,6 +5,7 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<Member> members = new ArrayList<Member>();
     static ArrayList<Dependent> dependents = new ArrayList<Dependent>();
+    static ArrayList<Plan> plans = new ArrayList<Plan>();
 
     public static void main(String[] args){
         System.out.println("\n========== Health Insurance Management ==========\n");
@@ -28,7 +29,7 @@ public class Main {
             switch (selection){
                 case 1 -> addMember();
                 case 2 -> addDependent();
-                case 3 -> System.out.println("3");
+                case 3 -> createPlan();
                 case 4 -> System.out.println("4");
                 case 5 -> System.out.println("5");
                 case 6 -> viewMembers();
@@ -85,6 +86,11 @@ public class Main {
 
         for (int i = 0; i < members.size(); i++) {
             System.out.println(members.get(i).memberName);
+            for (int j = 0; j < dependents.size(); j++){
+                if(dependents.get(j).mainMemberID.equals(members.get(i).memberID)){
+                    System.out.printf("\t%s - %s%n", dependents.get(j).memberName, dependents.get(j).relationship);
+                }
+            }
         }
     }
     static void addDependent(){
@@ -140,6 +146,51 @@ public class Main {
                 System.out.printf("%s has been added successfully!%n", dependent.memberName);
             }
         }
+
+    }
+
+    static void createPlan(){
+        //Check if there are any plans
+        if(plans.size() <= 0 ){
+            System.out.println("There are no Plans yet!");
+        }else{
+            // If there are list all plans first
+            System.out.println("*****AVAILABLE PLANS*****");
+            for (int i = 0; i < plans.size(); i++) {
+                System.out.printf("%d. %s - (Coverage: %d)%n",i+1, plans.get(i).planName, plans.get(i).coverageAmount);
+            }
+            System.out.println("*************************");
+        }
+
+        //Check if Plan name already exists
+
+        //Add the plan
+        System.out.print("Enter the plan name: ");
+        String planName = scanner.nextLine();
+
+        System.out.print("Enter the plan ID: ");
+        String planID = scanner.nextLine();
+
+        System.out.print("Enter the plan Coverage Amount: ");
+        int coverageAmount = scanner.nextInt();
+
+        System.out.println("Is it family shared or Individual?\n1. Family Shared. \n2. Individual");
+
+        int selection = scanner.nextInt();
+
+        boolean isFamilyshared;
+
+        if(selection == 1){
+            isFamilyshared = false;
+        }else{
+            isFamilyshared = true;
+        }
+
+        Plan plan = new Plan(planID,planName, coverageAmount, isFamilyshared);
+
+        plans.add(plan);
+
+        System.out.println("Plan Created Successfully!");
 
     }
 }
